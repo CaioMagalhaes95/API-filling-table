@@ -1,12 +1,16 @@
 
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'
+import { AllCommunityModule, ModuleRegistry, RowSelectionModule, type RowSelectionOptions } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react';
 import { InputText } from 'primereact/inputtext'
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import 'ag-grid-community/styles/ag-theme-material.css';
 
-ModuleRegistry.registerModules([AllCommunityModule])
+ModuleRegistry.registerModules([
+    AllCommunityModule,
+    RowSelectionModule
+
+])
 
 
 export default function TableTest(){
@@ -49,7 +53,17 @@ export default function TableTest(){
 
 
 
+    }, []);
+
+    const rowSelection = useMemo<RowSelectionOptions | "single" | "multiple">(() => {
+        return {
+            mode: "multiRow",
+        };
     }, [])
+
+    const onSelectionChanged = (event) => {
+        console.log(event.api.getSelectedRows())
+    }
 
      
 return (
@@ -58,7 +72,7 @@ return (
         <div className="flex flex-column gap-2">
                 
                 <InputText id="username" 
-                
+                className="mb-3 p-2 border rounded w-64 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder='Search...'
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -68,9 +82,13 @@ return (
         </div>
 
         <AgGridReact className="ag-theme-quartz"
+
             rowData={rowData}
             columnDefs={colDefs}
             quickFilterText={search}
+            rowSelection={rowSelection}
+            onSelectionChanged={onSelectionChanged}
+            
         />
     </div>
 )
