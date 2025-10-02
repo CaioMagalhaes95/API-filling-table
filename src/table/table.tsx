@@ -3,8 +3,11 @@ import { AllCommunityModule, ModuleRegistry, RowSelectionModule, type RowSelecti
 import { AgGridReact } from 'ag-grid-react';
 import { InputText } from 'primereact/inputtext'
 import { useEffect, useMemo, useState } from 'react';
+import { Divider, Stack } from '@mui/material';
 
 import 'ag-grid-community/styles/ag-theme-material.css';
+import SelectedTabs from '../tabview/selectedTable';
+import HighwayTabs from '../tabview/highwayTable';
 
 ModuleRegistry.registerModules([
     AllCommunityModule,
@@ -22,6 +25,10 @@ export default function TableTest(){
 
     // Column Definitions: Defines the columns to be displayed.
     const [colDefs, setColDefs] = useState([]);
+
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [highway, setHighway] = useState([]);
+    const keyword = 'net'; // substituir por highway
 
     useEffect(() => {
         const fetchData = async () =>{
@@ -55,14 +62,51 @@ export default function TableTest(){
 
     }, []);
 
+
+   
     const rowSelection = useMemo<RowSelectionOptions | "single" | "multiple">(() => {
         return {
             mode: "multiRow",
         };
-    }, [])
+    }, []);
 
-    const onSelectionChanged = (event) => {
-        console.log(event.api.getSelectedRows())
+     const containKeyword = (obj: any, keyword: any) => {
+        const lowerKeyword = keyword.toLowerCase();
+
+        const searchObj = (value: any) => {
+            if (value === null || value === undefined) return false;
+            if (typeof value === 'object'){
+                return Object.values(value).some(searchObj);
+            }
+            return value.toString().toLowerCase().includes(lowerKeyword);
+        };
+        return searchObj(obj);
+    }
+
+
+    const onSelectionChanged = (event: any) => {
+        const selected = event.api.getSelectedRows();
+
+        if(selected.length > 6) {
+            const lastSelected = selected[selected.length - 1];
+            event.api.deselectNode(event.api.getRowNode(lastSelected.id));
+            return;
+        }
+
+        const highway: never[] = [];
+        const noHighway: never[] = [];
+
+        selected.forEach((row: never) => {
+            if(containKeyword(row, keyword)){
+                highway.push(row);
+            } else {
+                noHighway.push(row);
+            }
+            
+        });
+
+        setHighway(highway.slice(0,3));
+        setSelectedRows(noHighway.slice(0, 3));
     }
 
      
@@ -88,8 +132,20 @@ return (
             quickFilterText={search}
             rowSelection={rowSelection}
             onSelectionChanged={onSelectionChanged}
+            sideBar={true}
+            
             
         />
+
+        <Stack  direction="row" spacing={2}   
+        divider={<Divider orientation="vertical" flexItem />}
+        marginTop={'1rem'}
+        marginLeft={'40%'}
+        >
+        <SelectedTabs selectedRows={selectedRows}/>
+        <HighwayTabs selectedRows={highway} keyword={keyword}/>
+        
+        </Stack>
     </div>
 )
 }
