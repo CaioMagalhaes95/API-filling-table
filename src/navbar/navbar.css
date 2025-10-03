@@ -1,0 +1,32 @@
+.navbar{
+    
+    padding: 1.75rem;
+    background-color: #060a42;
+    
+    color: white;
+    top: 0;
+    margin-top: fixed;
+    margin-bottom: 1%;
+    
+}
+
+
+
+.home{
+    color: white;
+    font-size: 1.80rem;
+    font-weight: bold;
+    text-decoration: none;
+
+    
+}
+
+.Tools{
+    color: white;
+    font-size: 1.50rem;
+    font-weight: bold;
+    margin: 50px;
+    text-decoration: none;
+
+    
+}
