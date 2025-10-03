@@ -277,7 +277,7 @@ return (
         <div style={{textAlign: "center", marginTop: "2rem"}}>
             <Button 
             style={{width: '80%', marginBottom: '2%'}}
-            label="Exportar relatorio C1"
+            label="Report C1"
             icon= "pi pi-file-pdf"
             className="p-buttom-danger"
             onClick={handleExportPDF}
