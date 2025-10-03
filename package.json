@@ -16,6 +16,8 @@
     "@mui/x-data-grid": "^8.12.1",
     "ag-grid-react": "^34.2.0",
     "datagrid": "^0.6.2",
+    "jspdf": "^3.0.3",
+    "jspdf-autotable": "^5.0.2",
     "primereact": "^10.9.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
