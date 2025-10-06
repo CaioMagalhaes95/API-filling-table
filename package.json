@@ -20,6 +20,7 @@
     "jspdf-autotable": "^5.0.2",
     "primereact": "^10.9.7",
     "react": "^19.1.1",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
     "react-select": "^5.10.2",
     "x-data-grid": "^2.1.0"

@@ -39,12 +39,12 @@ export default function InsertFile({ showToast }){
         multiple
         customUpload
         uploadHandler={handleUpload}
-        chooseLabel="Selecionar"
-        uploadLabel="Enviar"
-        cancelLabel="Cancelar"
+        chooseLabel="Select"
+        uploadLabel="Send"
+        cancelLabel="Cancel"
         accept=".csv, .xls, .xlsx, .json, .pdf, .jpg"
         maxFileSize={5000000}
-        emptyTemplate={<p className='m-0'>Arraste e solte os arquivos aqui</p>}
+        emptyTemplate={<p className='m-0'>Drag and drop files</p>}
         
         />
         </div>

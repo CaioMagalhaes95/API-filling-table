@@ -20,6 +20,7 @@ function App() {
 
   return (
     <>
+    <NavbarComponent />
     <UploadProvider>
       <Stack direction="row" spacing={2}>
         <Toast ref={toast}/>
