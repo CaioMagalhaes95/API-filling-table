@@ -1,7 +1,7 @@
 import {FileUpload} from 'primereact/fileupload'
 import { useUploadData } from '../components/components'
 
-export default function InsertFile(){
+export default function InsertFile({ showToast }){
     const { setProcessedData } = useUploadData();
 
     const handleUpload = async (event) => {
@@ -12,7 +12,7 @@ export default function InsertFile(){
         files.forEach((file) => formData.append("files", file));
 
         try {
-            const response = await fetch("https://localhost:3000/api/processar", {
+            const response = await fetch("http://localhost:3000/api/processar", {
                 method: "POST",
                 body: formData,
             });
@@ -20,11 +20,12 @@ export default function InsertFile(){
             if(!response.ok) throw new Error("Erro no processamento");
             const json = await response.json();
             setProcessedData(json);
-            alert("Arquivos enviados e processados com sucesso!");
+            showToast("✅ Arquivos enviados e processados com sucesso!", "success");
 
         }
         catch (error){
-            console.error(error)
+            console.error(error);
+            showToast("💥 Erro ao enviar ou processar os arquivos", "error");
         }
         
     }

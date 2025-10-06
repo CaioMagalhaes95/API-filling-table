@@ -88,7 +88,7 @@ export default function TableTest(){
     const onSelectionChanged = (event: any) => {
         const selected = event.api.getSelectedRows();
 
-        if(selected.length > 6) {
+        if(selected.length > 7) {
             const lastSelected = selected[selected.length - 1];
             event.api.deselectNode(event.api.getRowNode(lastSelected.id));
             return;
@@ -217,15 +217,35 @@ export default function TableTest(){
             generateTable("Linhas selecionadas (Outras)", selectedRows);
         }
 
-        // 🧾 Dados do JSON processado
-        if (processedData) {
-            doc.addPage();
-            header("Dados Processados do Upload");
+          let dataArray = [];
+            if (Array.isArray(processedData)) {
+                dataArray = processedData;
+            } else if (typeof processedData === "object") {
+                // Caso seja um objeto único, transforma em array com uma linha
+                dataArray = [processedData];
+            }
 
-            const jsonStr = JSON.stringify(processedData, null, 2);
-            const splitText = doc.splitTextToSize(jsonStr, pageWidth - 2 * margin);
-            doc.text(splitText, margin, 40);
-        }
+            if (dataArray.length > 0) {
+                const keys = Object.keys(dataArray[0]);
+                const body = dataArray.map((row) =>
+                    keys.map((k) =>
+                        typeof row[k] === "object" ? JSON.stringify(row[k]) : String(row[k])
+                    )
+                );
+
+                autoTable(doc, {
+                    startY: 40,
+                    head: [keys],
+                    body: body,
+                    styles: { fontSize: 8, cellPadding: 2 },
+                    headStyles: { fillColor: [0, 102, 204], textColor: 255, halign: "center" },
+                    alternateRowStyles: { fillColor: [245, 245, 245] },
+                });
+            } else {
+                doc.setFontSize(10);
+                doc.text("Nenhum dado processado encontrado.", margin, 40);
+            }
+        
 
         // 📌 Rodapé em todas as páginas
         footer();
