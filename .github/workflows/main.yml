@@ -1,0 +1,35 @@
+name: Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - staging
+  push:
+    branches:
+      - main
+  issues:
+    types: [opened, closed, reopened]
+  
+  label:
+    types: [ created, edited, deleted]
+  
+  schedule:
+    - cron: '30 5,17 * * 0'
+jobs:
+  manual_test_pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Command
+        run: echo "Teste de Pipeline"
+
+      - name: Build my App
+        run: echo "Building App..."
+  
+
+      
